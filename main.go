@@ -51,7 +51,7 @@ func StartServer() error {
 	Multiplexer.HandleFunc("/", controllers.Home)
 	Multiplexer.HandleFunc("/about", controllers.About)
 	Multiplexer.HandleFunc("/resume", controllers.Resume)
-	Multiplexer.Handle("/")
+	Multiplexer.Handle("/projects")
 
 	Multiplexer.HandleFunc("/chatPage", controllers.ChatPage)
 	Multiplexer.Handle("/chat", websocket.Handler(controllers.Chat))
