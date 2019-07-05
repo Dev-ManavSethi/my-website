@@ -18,7 +18,11 @@ func ChatPage(ResponseWriter http.ResponseWriter, Request *http.Request) {
 }
 
 
-func 
+func About(){
+
+}
+
+fun
 func Home(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
 	err := models.Templates.ExecuteTemplate(ResponseWriter, "home.html", nil)
