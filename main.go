@@ -48,7 +48,7 @@ func StartServer() error {
 	FileServer := StartFileServer()
 	Multiplexer := http.NewServeMux()
 
-	Multiplexer.HandleFunc("/", controllers.Home)
+	Multiplexer.HandleFunc("/", controllers.Home) 
 	Multiplexer.HandleFunc("/about", controllers.About)
 	Multiplexer.HandleFunc("/resume", controllers.Resume)
 	Multiplexer.HandleFunc("/projects", controllers.Projects)
