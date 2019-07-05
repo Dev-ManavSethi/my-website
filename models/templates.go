@@ -2,4 +2,6 @@ package models
 
 import "html/template"
 
-var tpl *template.Template
+var (
+	Templates *template.Template
+)

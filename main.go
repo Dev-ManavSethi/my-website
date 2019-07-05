@@ -1,15 +1,20 @@
 package main
 
 import (
+	"context"
 	"html/template"
-	"io"
 	"log"
 	"net/http"
 	"os"
 
-	"github.com/joho/godotenv"
+	"cloud.google.com/go/pubsub"
+	"github.com/Dev-ManavSethi/my-website/models"
 
-	"./utils"
+	"golang.org/x/net/websocket"
+
+	"github.com/Dev-ManavSethi/my-website/controllers"
+	"github.com/Dev-ManavSethi/my-website/utils"
+	"github.com/joho/godotenv"
 )
 
 var tpl *template.Template
@@ -17,48 +22,47 @@ var tpl *template.Template
 func init() {
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	var error01 error
 
-	tpl, error01 = template.ParseGlob("./templates/*")
+	models.Templates, models.DummyError = template.ParseGlob("templates/*")
+	utils.HandleErr(models.DummyError, "Error parsing glob from /templates", "Parsed templates fom /templates")
 
-	utils.FatalIfErrorNotNil(error01, "Failed to Parse glob templates from ./templates", true)
+	err02 := godotenv.Load(".env")
+	utils.HandleErr(err02, "Failed to export env variables from .env file", "Exported env variables from .env file")
 
-	error02 := godotenv.Load()
-	utils.FatalIfErrorNotNil(error02, "Error loading env variables", true)
+	ctx := context.Background()
+	models.DummyError = nil
+	models.PubSubClient, models.DummyError = pubsub.NewClient(ctx, "manavsethi")
+	utils.HandleErr(models.DummyError, "Error creating Pubsub client", "Created Pubsub client!")
 
 }
 
 func main() {
 
-	FileServer := http.FileServer(http.Dir("/storage"))
+	err := StartServer()
+	utils.HandleErr(err, "Error starting HTTP server at port: "+os.Getenv("PORT"), "HTTP server listening at port: "+os.Getenv("PORT"))
 
-	multiplexer := http.NewServeMux()
-
-	multiplexer.HandleFunc("/resume", resume)
-
-	multiplexer.Handle("/storage/", http.StripPrefix("/storage/", FileServer))
-
-	error01 := http.ListenAndServe(":"+os.Getenv("PORT"), multiplexer)
-	utils.FatalIfErrorNotNil(error01, "Error staring server at port "+os.Getenv("PORT"), true)
 }
 
-func resume(ResponseWriter http.ResponseWriter, Request *http.Request) {
+func StartServer() error {
 
-	HTTPresponse, error01 := http.Get(os.Getenv("RESUME_URL"))
-	utils.FatalIfErrorNotNil(error01, "Error getting response from resume url", false)
+	FileServer := StartFileServer()
+	Multiplexer := http.NewServeMux()
 
-	ResumeFileWriter, error02 := os.Create("./storage/pdf/resume.pdf")
-	utils.FatalIfErrorNotNil(error02, "Error creating resume pdf file", false)
+	Multiplexer.HandleFunc("/", controllers.Home)
+	Multiplexer.Handle("/chat", websocket.Handler(controllers.Chat))
 
-	_, error03 := io.Copy(ResumeFileWriter, HTTPresponse.Body)
-	defer HTTPresponse.Body.Close()
-	defer ResumeFileWriter.Close()
+	Multiplexer.HandleFunc("/resume", controllers.Resume)
 
-	utils.FatalIfErrorNotNil(error03, "Error copying from resonse body to file", false)
+	Multiplexer.Handle("/storage/", http.StripPrefix("/storage/", FileServer))
 
-	log.Println("Resume updated")
+	err := http.ListenAndServe(":"+os.Getenv("PORT"), Multiplexer)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
-	http.ServeFile(ResponseWriter, Request, "storage/pdf/resume.pdf")
-	log.Println("Resume shown")
-
+func StartFileServer() http.Handler {
+	FileServer := http.FileServer(http.Dir("/storage"))
+	return FileServer
 }
