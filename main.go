@@ -54,7 +54,7 @@ func StartServer() error {
 	Multiplexer.HandleFunc("/projects", controllers.Projects)
 
 	Multiplexer.HandleFunc("/chatPage", controllers.ChatPage)
-	Multiplexer.Handle("/chat", websocket.Handler(controllers.Chat)) 
+	Multiplexer.Handle("/chat", websocket.Handler(controllers.Chat)) //partially done
 
 	Multiplexer.Handle("/storage/", http.StripPrefix("/storage/", FileServer))
 
