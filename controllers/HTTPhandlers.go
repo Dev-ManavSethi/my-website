@@ -18,7 +18,7 @@ func ChatPage(ResponseWriter http.ResponseWriter, Request *http.Request) {
 }
 
 func About(ResponseWriter http.ResponseWriter, Request *http.Request) {
-
+	fmt.Fprintln(ResponseWriter, "Coming soon!")
 }
 
 func Projects(ResponseWriter http.ResponseWriter, Request *http.Request) {

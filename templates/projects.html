@@ -1,0 +1,34 @@
+<html>
+      <head>
+            <title>
+                  Projects
+            </title>
+
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+            
+            #container{
+                  border: 1px solid black;
+            }
+            
+            </style>
+      </head>
+
+      <body>
+            {{if .}}
+
+            {{range .}}
+            <div id="container">
+                  <h2>{{.Name}}</h2>
+                  <a href="{{.HTMLURL}}" target="_blank">GitHub Link</a><br/>
+                  <p><i>{{.Description}}</i></p>
+                  <h4>Language: {{.Language}}</h4>
+                  <label for="cloneurl">Clone URL: </label><input onclick="Copy()" type="url" id="cloneurl" value="{{.CloneURL}}"></input><br/>
+            </div>
+            <br/><br/>
+                  {{end}}
+
+
+            {{end}}
+      </body>
+</html>

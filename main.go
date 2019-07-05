@@ -45,13 +45,13 @@ func main() {
 
 func StartServer() error {
 
-	FileServer := StartFileServer()
+	FileServer := http.FileServer(http.Dir("storage"))
 	Multiplexer := http.NewServeMux()
 
 	Multiplexer.HandleFunc("/", controllers.Home) //done
 	Multiplexer.HandleFunc("/about", controllers.About)
-	Multiplexer.HandleFunc("/resume", controllers.Resume) //done
-	Multiplexer.HandleFunc("/projects", controllers.Projects) 
+	Multiplexer.HandleFunc("/resume", controllers.Resume)     //done
+	Multiplexer.HandleFunc("/projects", controllers.Projects) //done
 
 	Multiplexer.HandleFunc("/chatPage", controllers.ChatPage)
 	Multiplexer.Handle("/chat", websocket.Handler(controllers.Chat)) //partially done
@@ -65,7 +65,6 @@ func StartServer() error {
 	return nil
 }
 
-func StartFileServer() http.Handler {
-	FileServer := http.FileServer(http.Dir("/storage"))
-	return FileServer
-}
+// func StartFileServer() http.Handler {
+
+// }
