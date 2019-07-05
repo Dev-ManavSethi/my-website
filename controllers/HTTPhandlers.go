@@ -12,18 +12,14 @@ import (
 
 func ChatPage(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
+}
 
-
+func About(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
 }
 
+func Projects(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
-func About(){
-
-}
-
-func Projects(){
-	
 }
 func Home(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
