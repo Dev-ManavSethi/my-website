@@ -22,7 +22,9 @@ func About(){
 
 }
 
-fun
+func Projects(){
+	
+}
 func Home(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
 	err := models.Templates.ExecuteTemplate(ResponseWriter, "home.html", nil)
