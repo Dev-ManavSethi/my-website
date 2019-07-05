@@ -50,10 +50,10 @@ func StartServer() error {
 
 	Multiplexer.HandleFunc("/", controllers.Home)
 	Multiplexer.HandleFunc("//chatPage", controllers.ChatPage)
+
 	Multiplexer.Handle("/chat", websocket.Handler(controllers.Chat))
 
-	Multiplexer.HandleFunc("/resume", controllers.Resume)
-
+	
 	Multiplexer.Handle("/storage/", http.StripPrefix("/storage/", FileServer))
 
 	err := http.ListenAndServe(":"+os.Getenv("PORT"), Multiplexer)
