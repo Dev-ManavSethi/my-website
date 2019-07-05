@@ -49,7 +49,7 @@ func StartServer() error {
 	Multiplexer := http.NewServeMux()
 
 	Multiplexer.HandleFunc("/", controllers.Home)
-	
+	Multiplexer.HandleFunc()
 
 	Multiplexer.HandleFunc("/resume", controllers.Resume)
 
