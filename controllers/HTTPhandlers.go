@@ -1,7 +1,10 @@
 package controllers
 
 import (
+	"encoding/json"
+	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 
@@ -21,6 +24,29 @@ func About(ResponseWriter http.ResponseWriter, Request *http.Request) {
 func Projects(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
 	resp, err := http.Get(os.Getenv("GITHUB_REPOS_API_URL"))
+	if err != nil {
+		fmt.Fprintln(ResponseWriter, "Error: ", err, "Refresh or try later!")
+	} else {
+
+		var ReposFromGitHub []models.GitRepo
+
+		ResponseBytes, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			fmt.Fprintln(ResponseWriter, "Error: ", err, "Refresh or try later!")
+		} else {
+			err := json.Unmarshal(ResponseBytes, &ReposFromGitHub)
+			if err != nil {
+				fmt.Fprintln(ResponseWriter, "Error: ", err, "Refresh or try later!")
+			} else {
+				err := models.Templates.ExecuteTemplate(ResponseWriter, "projects.html", ReposFromGitHub)
+				if err != nil {
+					fmt.Fprintln(ResponseWriter, "Error: ", err, "Refresh or try later!")
+				}
+			}
+		}
+
+		defer resp.Body.Close()
+	}
 
 }
 func Home(ResponseWriter http.ResponseWriter, Request *http.Request) {
