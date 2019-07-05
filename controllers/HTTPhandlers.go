@@ -10,7 +10,12 @@ import (
 	"github.com/Dev-ManavSethi/my-website/utils"
 )
 
+func ChatPage(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
+
+
+
+}
 
 func Home(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
