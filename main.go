@@ -49,6 +49,7 @@ func StartServer() error {
 	Multiplexer := http.NewServeMux()
 
 	Multiplexer.HandleFunc("/", controllers.Home)
+	Multiplexer.H
 	Multiplexer.Handle("/chat", websocket.Handler(controllers.Chat))
 
 	Multiplexer.HandleFunc("/resume", controllers.Resume)
