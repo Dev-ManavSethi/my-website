@@ -20,6 +20,8 @@ func About(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
 func Projects(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
+	resp, err := http.Get(os.Getenv("GITHUB_REPOS_API_URL"))
+
 }
 func Home(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
