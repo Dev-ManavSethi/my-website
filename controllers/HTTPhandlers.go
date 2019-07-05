@@ -10,6 +10,8 @@ import (
 	"github.com/Dev-ManavSethi/my-website/utils"
 )
 
+
+
 func Home(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
 	err := models.Templates.ExecuteTemplate(ResponseWriter, "home.html", nil)
