@@ -73,7 +73,7 @@ func ListenMessages(WebSocketConn *websocket.Conn) {
 func Reply(WebSocketConn *websocket.Conn) {
 
 	for {
-		Topic := models.PubSubClient.Topic("to-be-replaced-by-client-addr").
+		//Topic := models.PubSubClient.Topic("to-be-replaced-by-client-addr")
 		sub := models.PubSubClient.Subscription("")
 		cctx, _ := context.WithCancel(context.TODO())
 		err := sub.Receive(cctx, func(ctx context.Context, msg *pubsub.Message) {

@@ -5,10 +5,15 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/Dev-ManavSethi/my-website/models"
+
 	"github.com/Dev-ManavSethi/my-website/utils"
 )
 
 func Home(ResponseWriter http.ResponseWriter, Request *http.Request) {
+
+	err := models.Templates.ExecuteTemplate(ResponseWriter, "home.html", nil)
+	utils.HandleErr(err, "Unable to execute template", "")
 
 }
 
