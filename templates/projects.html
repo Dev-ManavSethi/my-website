@@ -9,14 +9,30 @@
             
             #container{
                   border: 1px solid black;
+                  color: white;
+                  z-index:1;
+                  background-color: transparent;
             }
+            a{
+                  color: white;
+            }
+
+            body{
+                  opacity: 0.5;
+            }
+
             
             </style>
       </head>
 
-      <body>
+      <body id="canvas">
             {{if .}}
 
+
+<!-- 
+<div id="canvas" height="100%" width="100%" style="position:relative; z-index:0;"></div> -->
+
+<div id="conatiner_parent" style="position:relative; z-index: 1; background-color: transparent; opacity:1;">
             {{range .}}
             <div id="container">
                   <h2>{{.Name}}</h2>
@@ -28,7 +44,19 @@
             <br/><br/>
                   {{end}}
 
-
+            </div>
             {{end}}
+
+
+            
+          
+                  <script>
+                  
+                    VANTA.NET({ 
+                  el:  "#canvas",
+            }) 
+            VANTA.NET("#canvas")
+                  
+                  </script>
       </body>
 </html>
