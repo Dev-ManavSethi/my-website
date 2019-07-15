@@ -58,6 +58,8 @@ func StartServer() error {
 
 	Multiplexer.Handle("/storage/", http.StripPrefix("/storage/", FileServer))
 
+	log.Println("Listening at : " + os.Getenv("PORT"))
+
 	err := http.ListenAndServe(":"+os.Getenv("PORT"), Multiplexer)
 	if err != nil {
 		return err

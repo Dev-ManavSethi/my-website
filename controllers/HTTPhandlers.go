@@ -52,7 +52,7 @@ func Projects(ResponseWriter http.ResponseWriter, Request *http.Request) {
 func Home(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
 	err := models.Templates.ExecuteTemplate(ResponseWriter, "home.html", nil)
-	utils.HandleErr(err, "Unable to execute template", "")
+	utils.HandleErr(err, "Unable to execute template home.html", "")
 
 }
 
