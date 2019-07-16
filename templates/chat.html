@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat with Manav</title>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+</head>
+<body>
+
+
+{{if .}}
+
+Welcome {{.Name}}
+
+    {{range .Chats}}
+
+        <p>{{.Name}} : {{.Message}}</p>
+        <p><i>{{.Time}}</i></p>
+        <br/>
+
+
+        {{end}}
+{{end}}
+
+
+<footer>
+
+
+
+{{/*    <form class="form-horizontal" method="post">*/}}
+        <fieldset>
+
+            <!-- Form Name -->
+            <legend>Chat</legend>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="name">Name</label>
+                <div class="col-md-4">
+                    <input id="name" name="name" type="text" placeholder="name" class="form-control input-md" required="" value="{{.Name}}">
+
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="message">Message</label>
+                <div class="col-md-8">
+                    <input id="message" name="message" type="text" placeholder="Your Message" class="form-control input-md" required="">
+
+                </div>
+            </div>
+
+        </fieldset>
+
+  <button id="send">Send</button>
+{{/*    </form>*/}}
+
+
+
+</footer>
+
+
+
+    <script>
+    $(document).ready(function(){
+        $("#send").click(function(){
+            var name = $("#name").val();
+            if (name == "Guest"){
+                alert("Please enter your name!")
+            } else {
+                var message = $("#message").val();
+                //  alert(message)
+                $.post("/chat", {
+                    "name": name,
+                    "message": message
+                }, function (data, status) {
+//alert(name, message)
+                    location.reload();
+                });
+            }
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>

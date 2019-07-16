@@ -1,16 +1,12 @@
 package main
 
 import (
-	"context"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
 
-	"cloud.google.com/go/pubsub"
 	"github.com/Dev-ManavSethi/my-website/models"
-
-	"golang.org/x/net/websocket"
 
 	"github.com/Dev-ManavSethi/my-website/controllers"
 	"github.com/Dev-ManavSethi/my-website/utils"
@@ -29,10 +25,9 @@ func init() {
 	err02 := godotenv.Load(".env")
 	utils.HandleErr(err02, "Failed to export env variables from .env file", "Exported env variables from .env file")
 
-	ctx := context.Background()
-	models.DummyError = nil
-	models.PubSubClient, models.DummyError = pubsub.NewClient(ctx, "manavsethi")
-	utils.HandleErr(models.DummyError, "Error creating Pubsub client", "Created Pubsub client!")
+	models.DummyError= nil
+	models.MongoDBclient, models.DummyError = controllers.ConnectToMongo()
+	utils.HandleErr(models.DummyError, "Mongo err", "Connected to MongoDB")
 
 }
 
@@ -53,8 +48,8 @@ func StartServer() error {
 	Multiplexer.HandleFunc("/resume", controllers.Resume)     //done
 	Multiplexer.HandleFunc("/projects", controllers.Projects) //done
 
-	Multiplexer.HandleFunc("/chatPage", controllers.ChatPage)
-	Multiplexer.Handle("/chat", websocket.Handler(controllers.Chat)) //partially done
+	Multiplexer.HandleFunc("/chat", controllers.Chat)
+
 
 	Multiplexer.Handle("/storage/", http.StripPrefix("/storage/", FileServer))
 
