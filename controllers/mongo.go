@@ -10,7 +10,7 @@ import (
 //mongodb://manav:manavsethi1@ds251507.mlab.com:51507/heroku_qfjcjl3j
 
 func ConnectToMongo() (*mongo.Client, error){
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://" + os.Getenv("MONGO_USER") + os.Getenv("MONGO_PASS") + "@" +os.Getenv("MONGO_HOST")+ os.Getenv("MONGO_PORT") + "/"+ os.Getenv("MONGO_DB_NAME")))
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://" + os.Getenv("MONGO_USER") + os.Getenv("MONGO_PASS") + "@" +os.Getenv("MONGO_HOST") + "/"+ os.Getenv("MONGO_DB_NAME") + "?retryWrites=true&w=majority"))
 	if err!=nil{
 		return  nil, err
 	}
