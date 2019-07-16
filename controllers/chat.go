@@ -16,6 +16,7 @@ func Chat(w http.ResponseWriter, r *http.Request){
 	if r.Method==http.MethodGet {
 
 		IPAddress := utils.GetUserIP(r)
+		log.Println(IPAddress)
 
 
 		UserExists := utils.CheckChatUserExists(IPAddress)
@@ -74,6 +75,7 @@ func Chat(w http.ResponseWriter, r *http.Request){
 		}
 
 		IPAddress := utils.GetUserIP(r)
+		log.Println(IPAddress)
 
 		UserExists := utils.CheckChatUserExists(IPAddress)
 
