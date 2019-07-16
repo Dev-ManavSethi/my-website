@@ -25,7 +25,7 @@ Welcome {{.Name}}
 
 
         {{end}}
-{{end}}
+
 
 
 <footer>
@@ -78,7 +78,8 @@ Welcome {{.Name}}
                 //  alert(message)
                 $.post("/chat", {
                     "name": name,
-                    "message": message
+                    "message": message,
+                    "time": 0
                 }, function (data, status) {
 //alert(name, message)
                     location.reload();
@@ -88,7 +89,49 @@ Welcome {{.Name}}
     });
 </script>
 
+{{end}}
 
+
+<fieldset>
+
+    <!-- Form Name -->
+    <legend>Start Chat</legend>
+
+    <!-- Text input-->
+    <div class="form-group">
+        <label class="col-md-4 control-label" for="name">Name</label>
+        <div class="col-md-4">
+            <input id="reg-name" name="reg-name" type="text" placeholder="Name" class="form-control input-md" required="">
+
+        </div>
+    </div>
+
+    <!-- Text input-->
+
+
+</fieldset>
+
+<button id="reg">Start Chat</button>
+
+
+<script>
+
+    $(document).ready(function(){
+        $("#reg").click(function(){
+            var name = $("#reg-name").val();
+            if (name == ""){
+                alert("Please enter your name!")
+            } else {
+                $.get("/chat?name=" + name, function (data, status) {
+//alert(name, message)
+                    location.reload();
+                });
+            }
+        });
+    });
+
+
+</script>
 
 
 </body>

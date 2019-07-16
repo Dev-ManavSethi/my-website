@@ -4,7 +4,6 @@ type (
 	ChatMessage struct {
 		Name    string `json:"name"`
 		Message string `json:"message"`
-		//Address string `json:"address"`
 		Time int64 `json:"time"`
 	}
 
@@ -13,4 +12,13 @@ type (
 		Name string `json:"name"`
 		Chats []ChatMessage `json:"chats"`
 	}
+
+
+
 )
+
+
+var(
+	Chats map[string]ChatUser
+)
+

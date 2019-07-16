@@ -25,9 +25,10 @@ func init() {
 	err02 := godotenv.Load(".env")
 	utils.HandleErr(err02, "Failed to export env variables from .env file", "Exported env variables from .env file")
 
-	models.DummyError= nil
-	models.MongoDBclient, models.DummyError = controllers.ConnectToMongo()
-	utils.HandleErr(models.DummyError, "Mongo err", "Connected to MongoDB")
+	models.Chats = make((map[string]models.ChatUser))
+	models.DummyError = nil
+	models.Chats, models.DummyError = utils.LoadChatsFromFile("chats.file")
+	utils.HandleErr(models.DummyError, "Error loading chats from chats.file", "Loaded chats from chats.file")
 
 }
 
@@ -41,13 +42,12 @@ func main() {
 func StartServer() error {
 
 	FileServer := http.FileServer(http.Dir("storage"))
-	Multiplexer := http.NewServeMux()
 
+	Multiplexer := http.NewServeMux()
 	Multiplexer.HandleFunc("/", controllers.Home) //done
 	Multiplexer.HandleFunc("/about", controllers.About)
-	Multiplexer.HandleFunc("/resume", controllers.Resume)     //done
+	Multiplexer.HandleFunc("/resume", controllers.Resume)     //done, update resume + env resume link
 	Multiplexer.HandleFunc("/projects", controllers.Projects) //done
-
 	Multiplexer.HandleFunc("/chat", controllers.Chat)
 
 
@@ -61,7 +61,3 @@ func StartServer() error {
 	}
 	return nil
 }
-
-// func StartFileServer() http.Handler {
-
-// }
