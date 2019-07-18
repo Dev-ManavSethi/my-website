@@ -57,7 +57,7 @@ func StartServer() error {
 
 	log.Println("Listening at : " + os.Getenv("PORT"))
 
-	err := http.ListenAndServeTLS(":" + os.Getenv("PORT"), "ssl/certificate.crt","ssl/private.key", Multiplexer)
+	err := http.ListenAndServe(":" + os.Getenv("PORT"), Multiplexer)
 	if err != nil {
 		return err
 	}
