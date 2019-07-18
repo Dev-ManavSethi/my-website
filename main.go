@@ -55,7 +55,7 @@ func StartServer() error {
 
 	log.Println("Listening at : " + os.Getenv("PORT"))
 
-	err := http.ListenAndServe(":"+os.Getenv("PORT"), Multiplexer)
+	err := http.ListenAndServe(":" + os.Getenv("PORT"),  Multiplexer)
 	if err != nil {
 		return err
 	}

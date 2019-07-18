@@ -40,7 +40,7 @@ func Chat(w http.ResponseWriter, r *http.Request){
 
 				error := utils.BackupChats()
 				if error!=nil{
-					log.Println("Unable to nackup chats")
+					log.Println("Unable to backup chats")
 					log.Fatalln(error)
 				}
 

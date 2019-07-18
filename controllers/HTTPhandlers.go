@@ -51,7 +51,10 @@ func Projects(ResponseWriter http.ResponseWriter, Request *http.Request) {
 }
 func Home(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
-	err := models.Templates.ExecuteTemplate(ResponseWriter, "home.html", nil)
+	IPaddress := utils.GetUserIP(Request)
+	name := models.Chats[IPaddress].Name
+
+	err := models.Templates.ExecuteTemplate(ResponseWriter, "home.html", name)
 	utils.HandleErr(err, "Unable to execute template home.html", "")
 
 }
