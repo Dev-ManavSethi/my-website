@@ -42,6 +42,7 @@ func main() {
 func StartServer() error {
 
 	FileServer := http.FileServer(http.Dir("storage"))
+	FileServer2 := http.FileServer(http.Dir(".well-known"))
 
 	Multiplexer := http.NewServeMux()
 	Multiplexer.HandleFunc("/", controllers.Home) //done
@@ -52,6 +53,7 @@ func StartServer() error {
 
 
 	Multiplexer.Handle("/storage/", http.StripPrefix("/storage/", FileServer))
+	Multiplexer.Handle("/.well-known/", http.StripPrefix("/.well-known/", FileServer2))
 
 	log.Println("Listening at : " + os.Getenv("PORT"))
 
