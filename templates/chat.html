@@ -4,135 +4,241 @@
     <meta charset="UTF-8">
     <title>Chat with Manav</title>
 
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-
-
 </head>
-<body>
 
+<body>
 
 {{if .}}
 
-Welcome {{.Name}}
+    Welcome {{.Name}}
 
+        <div id="chat">
     {{range .Chats}}
 
         <p>{{.Name}} : {{.Message}}</p>
         <p><i>{{.Time}}</i></p>
-        <br/>
+        <br id="br"/>
+
+    {{end}}
+        </div>
 
 
-        {{end}}
-
-
+{{end}}
 
 <footer>
 
 
+    <fieldset>
 
-{{/*    <form class="form-horizontal" method="post">*/}}
-        <fieldset>
+        <legend> Chat </legend>
 
-            <!-- Form Name -->
-            <legend>Chat</legend>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="name">Name</label>
+            <div class="col-md-4">
 
-            <!-- Text input-->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="name">Name</label>
-                <div class="col-md-4">
-                    <input id="name" name="name" type="text" placeholder="name" class="form-control input-md" required="" value="{{.Name}}">
+                <!-- name input -->
+                <input id="name" name="name" type="text" placeholder="name" class="form-control input-md" required="" value="{{.Name}}">
 
-                </div>
             </div>
+        </div>
 
-            <!-- Text input-->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="message">Message</label>
-                <div class="col-md-8">
-                    <input id="message" name="message" type="text" placeholder="Your Message" class="form-control input-md" required="">
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="message">Message</label>
+            <div class="col-md-8">
 
-                </div>
+                <!-- message input -->
+                <input id="message" name="message" type="text" placeholder="Your Message" class="form-control input-md" required="">
+
             </div>
+        </div>
 
-        </fieldset>
+    </fieldset>
 
-  <button id="send">Send</button>
-{{/*    </form>*/}}
-
+    <!--send button-->
+    <button  onclick="SendMessage()">Send</button>
 
 
 </footer>
 
 
 
-    <script>
-    $(document).ready(function(){
-        $("#send").click(function(){
-            var name = $("#name").val();
-            if (name == "Guest"){
-                alert("Please enter your name!")
-            } else {
-                var message = $("#message").val();
-                //  alert(message)
-                $.post("/chat", {
-                    "name": name,
-                    "message": message,
-                    "time": 0
-                }, function (data, status) {
-//alert(name, message)
-                    location.reload();
-                });
+<script type = "text/javascript">
+
+        if ("WebSocket" in window) {
+
+            // Let us open a web socket
+            var ws = new WebSocket("ws://localhost:5000/chatws");
+
+            function SendMessage(){
+
+                var name = document.getElementById("name").value;
+                var message  = document.getElementById("message").value;
+                var ip = "127.0.0.1";
+                var time = 0;
+
+                console.log(name, message, ip, time);
+
+
+
+                ws.send(JSON.stringify({
+                    name: name,
+                    message: message,
+                    ip:ip,
+                    time:time
+                }));
+
+
             }
-        });
-    });
+
+            ws.onopen = function() {
+
+
+            };
+
+            ws.onmessage = function (evt) {
+
+                var reply = JSON.parse(evt.data);
+
+
+                var p_name = document.createElement("p");                 // Create a <li> node
+                var name_text = document.createTextNode(reply.name + " : " + reply.message);         // Create a text node
+                p_name.appendChild(name_text);
+                //
+                // var p_message = document.createElement("p");                 // Create a <li> node
+                // var message_text = document.createTextNode(reply.message);         // Create a text node
+                // p_message.appendChild(message_text);
+
+                var p_time = document.createElement("p");                 // Create a <li> node
+                var time_text = document.createTextNode(reply.time);         // Create a text node
+                p_time.appendChild(time_text);
+                //italic
+                p_time.style.fontStyle = "italic";
+
+                var chat_div  = document.getElementById("chat");
+                chat_div.appendChild(p_name);
+             //   chat_div.appendChild(p_message);
+                chat_div.appendChild(p_time);
+                chat_div.appendChild(document.getElementById("br"));
+            };
+
+            ws.onclose = function() {
+
+
+
+            };
+        } else {
+
+            // The browser doesn't support WebSocket
+            alert("WebSocket NOT supported by your Browser!");
+        }
 </script>
-
-{{end}}
-
-
-<fieldset>
-
-    <!-- Form Name -->
-    <legend>Start Chat</legend>
-
-    <!-- Text input-->
-    <div class="form-group">
-        <label class="col-md-4 control-label" for="name">Name</label>
-        <div class="col-md-4">
-            <input id="reg-name" name="reg-name" type="text" placeholder="Name" class="form-control input-md" required="">
-
-        </div>
-    </div>
-
-    <!-- Text input-->
-
-
-</fieldset>
-
-<button id="reg">Start Chat</button>
-
-
-<script>
-
-    $(document).ready(function(){
-        $("#reg").click(function(){
-            var name = $("#reg-name").val();
-            if (name == ""){
-                alert("Please enter your name!")
-            } else {
-                $.get("/chat?name=" + name, function (data, status) {
-//alert(name, message)
-                    location.reload();
-                });
-            }
-        });
-    });
-
-
-</script>
-
 
 </body>
 </html>
+
+
+
+{{/*<fieldset>*/}}
+
+{{/*    <!-- Form Name -->*/}}
+{{/*    <legend>Start Chat</legend>*/}}
+
+{{/*    <!-- Text input-->*/}}
+{{/*    <div class="form-group">*/}}
+{{/*        <label class="col-md-4 control-label" for="name">Name</label>*/}}
+{{/*        <div class="col-md-4">*/}}
+{{/*            <input id="reg-name" name="reg-name" type="text" placeholder="Name" class="form-control input-md" required="">*/}}
+
+{{/*        </div>*/}}
+{{/*    </div>*/}}
+
+{{/*    <!-- Text input-->*/}}
+
+
+{{/*</fieldset>*/}}
+
+{{/*<button id="reg">Start Chat</button>*/}}
+
+
+{{/*<script>*/}}
+
+{{/*    $(document).ready(function(){*/}}
+
+{{/*        //*/}}
+{{/*        // $.getJSON('http://ip-api.com/json?callback=?', function(data) {*/}}
+{{/*        //     console.log(JSON.stringify(data.query, null, 2));*/}}
+{{/*        // });*/}}
+
+
+
+{{/*        $("#reg").click(function(){*/}}
+{{/*            var name = $("#reg-name").val();*/}}
+{{/*            if (name == ""){*/}}
+{{/*                alert("Please enter your name!")*/}}
+{{/*            } else {*/}}
+{{/*                $.get("/chat?name=" + name, function (data, status) {*/}}
+{{/*//alert(name, message)*/}}
+{{/*                    location.reload();*/}}
+{{/*                });*/}}
+{{/*            }*/}}
+{{/*        });*/}}
+{{/*    });*/}}
+{{/*</script>*/}}
+
+
+
+{{/*        */}}
+{{/*    <script>*/}}
+{{/*    $(document).ready(function(){*/}}
+{{/*        $("#send").click(function(){*/}}
+{{/*            var name = $("#name").val();*/}}
+{{/*            if (name == "Guest"){*/}}
+{{/*                alert("Please enter your name!")*/}}
+{{/*            } else {*/}}
+{{/*                var message = $("#message").val();*/}}
+{{/*                //  alert(message)*/}}
+{{/*                $.post("/chat", {*/}}
+{{/*                    "name": name,*/}}
+{{/*                    "message": message,*/}}
+{{/*                    "time": 0*/}}
+{{/*                }, function (data, status) {*/}}
+{{/*//alert(name, message)*/}}
+{{/*                    location.reload();*/}}
+{{/*                });*/}}
+{{/*            }*/}}
+{{/*        });*/}}
+{{/*    });*/}}
+{{/*</script>*/}}
+
+{{/*{{if .FirstTime}}*/}}
+
+{{/*<script>*/}}
+
+
+{{/*    function getName() {*/}}
+{{/*        var name = prompt("Please enter your name to start chat", "");*/}}
+{{/*        if (name != null) {*/}}
+
+{{/*            //?name=name*/}}
+{{/*            //send get req*/}}
+{{/*            $.get(*/}}
+{{/*                "/chat",*/}}
+{{/*                {name : name },*/}}
+{{/*                function(data) {*/}}
+
+{{/*                }*/}}
+{{/*            );*/}}
+{{/*            location.reload();*/}}
+
+{{/*        } else getName()*/}}
+{{/*    }*/}}
+{{/*    getName();*/}}
+
+
+{{/*</script>*/}}
+
+{{/*{{end}}*/}}
+
+

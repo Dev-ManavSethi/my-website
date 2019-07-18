@@ -52,9 +52,19 @@ func Projects(ResponseWriter http.ResponseWriter, Request *http.Request) {
 func Home(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
 	IPaddress := utils.GetUserIP(Request)
-	name := models.Chats[IPaddress].Name
 
-	err := models.Templates.ExecuteTemplate(ResponseWriter, "home.html", name)
+	models.GlobalMutex.Lock()
+	User := models.Chats[IPaddress]
+	User.VisitCount++
+
+	if User.VisitCount > 1{
+		User.VisitMoreThanOnce = true
+	}
+
+	models.Chats[IPaddress] = User
+	models.GlobalMutex.Unlock()
+
+	err := models.Templates.ExecuteTemplate(ResponseWriter, "home.html", models.Chats[IPaddress])
 	utils.HandleErr(err, "Unable to execute template home.html", "")
 
 }

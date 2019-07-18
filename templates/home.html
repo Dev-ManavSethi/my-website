@@ -25,7 +25,7 @@ a{
 
 
             <div id="container" style="position: relative; z-index: 1;">
-                  <h3>Welcome {{.}}</h3>
+                  <h3>Welcome {{if .VisitMoreThanOnce}} back {{end}}{{.Name}}!</h3>
                   <a title="About Manav" href="/about">About Manav</a><br/><br/>
             <a title="Resume" href="/resume" target="_blank">Resume</a> <br/><br/>
             <a title="Projects" href="/projects">Projects</a> <br/><br/>
