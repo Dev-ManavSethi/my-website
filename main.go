@@ -34,9 +34,9 @@ func init() {
 	models.Chats = make((map[string]models.User))
 
 	models.DummyError = nil
-	models.Chats, models.DummyError = utils.LoadChatsFromFile(os.Getenv("CHATS_DB"))
-	utils.HandleErr(models.DummyError, "Error loading chats from db/chats.db", "Loaded chats from db/chats.db")
-	//log.Println(models.Chats)
+	// models.Chats, models.DummyError = utils.LoadChatsFromFile(os.Getenv("CHATS_DB"))
+	// utils.HandleErr(models.DummyError, "Error loading chats from db/chats.db", "Loaded chats from db/chats.db")
+	// //log.Println(models.Chats)
 
 }
 

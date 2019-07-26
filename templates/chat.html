@@ -6,8 +6,7 @@
     <title>Chat with Manav</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
-
+ 
 </head>
 
 <body>
@@ -94,7 +93,7 @@
         </fieldset>
 
         <!--send button-->
-        <button onclick="StartChat()" id="start-chat-button">Start</button>
+        <button  id="start-chat-button">Start</button>
 
 
     </footer>
@@ -104,23 +103,15 @@
   
     <script type="text/javascript">
 
-var ip = "";
-function getIP(json) {
-  ip = json.ip;
-
-  alert(ip);
-  document.write(ip)
-  console.log(ip)
-  }
 
 
 $(document).ready(function(){
     
 
   $("#start-chat-button").click(function(){
-    var name = document.getElementById("start-name").value;
-    $.get("/chat?name=" +name, function(data, status){
-    location.reload;
+    
+    $.get("/chat?name=" +$("#start-name").val(), function(data, status){
+    location.reload();
     });
   });
  
@@ -145,8 +136,7 @@ $.getJSON('https://api.ipify.org?format=json', function(data){
                 var message = document.getElementById("message").value;
                 var ip = data.ip; //do this
                 var time = 0;
-
-alert(ip);
+console.log(ip);
 
 
             //    console.log(name, message, ip, time);
