@@ -108,6 +108,7 @@ var ip = "";
 function getIP(json) {
   ip = json.ip;
   document.write(ip)
+  console.log(ip)
   }
 
 
@@ -140,6 +141,8 @@ $(document).ready(function(){
                 var message = document.getElementById("message").value;
                 var ip = ip; //do this
                 var time = 0;
+
+                alert(ip);
 
             //    console.log(name, message, ip, time);
 
