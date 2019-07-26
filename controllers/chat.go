@@ -20,6 +20,7 @@ func Chat(w http.ResponseWriter, r *http.Request) {
 		UserExists := utils.CheckChatUserExists(IPAddress)
 
 		if UserExists {
+			log.Println("Chat user already exists: " + models.Chats[IPAddress].Name)
 			err := models.Templates.ExecuteTemplate(w, "chat.html", models.Chats[IPAddress])
 			utils.HandleErr(err, "Error executing chat.html for "+IPAddress, "")
 			if err != nil {
@@ -27,28 +28,36 @@ func Chat(w http.ResponseWriter, r *http.Request) {
 			}
 		} else if !UserExists {
 
+			log.Println("Chat user does not exist")
+
 			var name string
 			err := r.ParseForm()
 			if err != nil {
-				name = "Guest"
+
 			} else {
 				name = r.FormValue("name")
 			}
 
-			utils.RegisterChatUser(IPAddress, name)
+			if name == "" {
 
-			error := utils.BackupChats()
-			if error != nil {
-				log.Println("Unable to backup chats")
-				log.Println(error)
+				err2 := models.Templates.ExecuteTemplate(w, "chat.html", nil)
+				utils.HandleErr(err2, "Error executing chat.html for "+IPAddress, "")
+			} else {
+				utils.RegisterChatUser(IPAddress, name)
+
+				error := utils.BackupChats()
+				if error != nil {
+					log.Println("Unable to backup chats")
+					log.Println(error)
+				}
+
+				err2 := models.Templates.ExecuteTemplate(w, "chat.html", models.Chats[IPAddress])
+				utils.HandleErr(err2, "Error executing chat.html for "+IPAddress, "")
+				if err2 != nil {
+					w.WriteHeader(http.StatusInternalServerError)
+				}
+
 			}
-
-			err2 := models.Templates.ExecuteTemplate(w, "chat.html", models.Chats[IPAddress])
-			utils.HandleErr(err2, "Error executing chat.html for "+IPAddress, "")
-			if err2 != nil {
-				w.WriteHeader(http.StatusInternalServerError)
-			}
-
 		}
 
 	}
