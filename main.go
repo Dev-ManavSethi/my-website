@@ -1,8 +1,6 @@
 package main
 
 import (
-	"github.com/joho/godotenv"
-	"golang.org/x/net/websocket"
 	"html/template"
 	"log"
 	"net"
@@ -11,13 +9,14 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/joho/godotenv"
+	"golang.org/x/net/websocket"
+
 	"github.com/Dev-ManavSethi/my-website/models"
 
 	"github.com/Dev-ManavSethi/my-website/controllers"
 	"github.com/Dev-ManavSethi/my-website/utils"
 )
-
-
 
 func init() {
 
@@ -26,13 +25,11 @@ func init() {
 
 	//
 	err := utils.LogToFile(os.Getenv("LOG_FILE"))
-	utils.HandleErr(err, "Error setting log file" , "Log file set!")
+	utils.HandleErr(err, "Error setting log file", "Log file set!")
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-
 
 	models.Templates, models.DummyError = template.ParseGlob("templates/*")
 	utils.HandleErr(models.DummyError, "Error parsing glob from /templates", "Parsed templates fom /templates")
-
 
 	models.Chats = make((map[string]models.User))
 
@@ -45,22 +42,19 @@ func init() {
 
 func main() {
 
-
-
-	go func(){
+	go func() {
 
 		var GraceSignal = make(chan os.Signal)
 
 		signal.Notify(GraceSignal, syscall.SIGTERM)
 		signal.Notify(GraceSignal, syscall.SIGINT)
 
-		sig := <- GraceSignal
+		sig := <-GraceSignal
 		log.Println("Signal recieved", sig)
 		utils.BackupChats()
 		log.Println("Exiting app")
 		log.Println()
 		os.Exit(0)
-
 
 	}()
 
@@ -73,35 +67,32 @@ func StartServer() error {
 
 	FileServer := http.FileServer(http.Dir(os.Getenv("STORAGE_DIR")))
 
-
 	Multiplexer := http.NewServeMux()
 
 	Multiplexer.HandleFunc("/", controllers.Home) //done
 	Multiplexer.HandleFunc("/about", controllers.About)
 	Multiplexer.HandleFunc("/resume", controllers.Resume)     //done, update resume + env resume link
+	Multiplexer.HandleFunc("/resume/upload", controllers.ResumeUpload)
 	Multiplexer.HandleFunc("/projects", controllers.Projects) //done
 	Multiplexer.HandleFunc("/chat", controllers.Chat)
 	Multiplexer.Handle("/chatws", websocket.Handler(controllers.ChatWS))
 
-
 	Multiplexer.Handle("/storage/", http.StripPrefix("/storage/", FileServer))
 
-
 	log.Println("Listening at : " + os.Getenv("PORT"))
-
 
 	models.HTTPserver = &http.Server{
 		Handler: Multiplexer,
 	}
 
-	l, err := net.Listen("tcp", ":" + os.Getenv("PORT"))
+	l, err := net.Listen("tcp", ":"+os.Getenv("PORT"))
 	if err != nil {
 		return err
 	}
 
 	err = models.HTTPserver.Serve(l)
 	if err != nil {
-	return err
+		return err
 	}
 
 	return nil

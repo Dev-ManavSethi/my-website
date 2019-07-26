@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 
@@ -57,7 +58,7 @@ func Home(ResponseWriter http.ResponseWriter, Request *http.Request) {
 	User := models.Chats[IPaddress]
 	User.VisitCount++
 
-	if User.VisitCount > 1{
+	if User.VisitCount > 1 {
 		User.VisitMoreThanOnce = true
 	}
 
@@ -69,19 +70,58 @@ func Home(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
 }
 
+func ResumeUpload(ResponseWriter http.ResponseWriter, Request *http.Request) {
+
+	if Request.Method == http.MethodPost {
+
+		FileReader, err := os.OpenFile("storage/pdf/resume.pdf", os.O_CREATE|os.O_RDWR, 0655)
+		if err != nil {
+			log.Println(err)
+			ResponseWriter.WriteHeader(http.StatusInternalServerError)
+		} else {
+			err := Request.ParseForm()
+			if err != nil {
+				log.Println(err)
+				ResponseWriter.WriteHeader(http.StatusInternalServerError)
+			} else {
+				file, _, err := Request.FormFile("resume")
+				if err != nil {
+					log.Println(err)
+					ResponseWriter.WriteHeader(http.StatusInternalServerError)
+				} else {
+					_, err := io.Copy(FileReader, file)
+					if err != nil {
+						log.Println(err)
+						ResponseWriter.WriteHeader(http.StatusInternalServerError)
+					} else {
+						ResponseWriter.WriteHeader(http.StatusOK)
+						fmt.Fprint(ResponseWriter, "Done!")
+					}
+				}
+			}
+		}
+	}
+
+	if Request.Method == http.MethodGet {
+		err := models.Templates.ExecuteTemplate(ResponseWriter, "upload_resume.html", nil)
+		utils.HandleErr(err, "Unable to execute template upload_resume.html", "")
+	}
+
+}
+
 func Resume(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
-	HTTPresponse, error01 := http.Get(os.Getenv("RESUME_URL"))
-	utils.HandleErr(error01, "Error getting resume from: "+os.Getenv("RESUME_URL"), "")
+	// HTTPresponse, error01 := http.Get(os.Getenv("RESUME_URL"))
+	// utils.HandleErr(error01, "Error getting resume from: "+os.Getenv("RESUME_URL"), "")
 
-	ResumeFileWriter, error02 := os.Create("./storage/pdf/resume.pdf")
-	utils.HandleErr(error02, "Error creating / getting /storage/resume.pdf", "")
+	// ResumeFileWriter, error02 := os.Create("./storage/pdf/resume.pdf")
+	// utils.HandleErr(error02, "Error creating / getting /storage/resume.pdf", "")
 
-	_, error03 := io.Copy(ResumeFileWriter, HTTPresponse.Body)
-	defer HTTPresponse.Body.Close()
-	defer ResumeFileWriter.Close()
+	// _, error03 := io.Copy(ResumeFileWriter, HTTPresponse.Body)
+	// defer HTTPresponse.Body.Close()
+	// // defer ResumeFileWriter.Close()
 
-	utils.HandleErr(error03, "Error copying from resonse body to file", "Updated resume!")
+	// utils.HandleErr(error03, "Error copying from resonse body to file", "Updated resume!")
 
 	http.ServeFile(ResponseWriter, Request, "storage/pdf/resume.pdf")
 
