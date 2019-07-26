@@ -24,8 +24,8 @@ func init() {
 	utils.HandleErr(err02, "Failed to export env variables from .env file", "Exported env variables from .env file")
 
 	//
-	err := utils.LogToFile(os.Getenv("LOG_FILE"))
-	utils.HandleErr(err, "Error setting log file", "Log file set!")
+	// err := utils.LogToFile(os.Getenv("LOG_FILE"))
+	// utils.HandleErr(err, "Error setting log file", "Log file set!")
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	models.Templates, models.DummyError = template.ParseGlob("templates/*")
