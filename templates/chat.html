@@ -107,6 +107,8 @@
 var ip = "";
 function getIP(json) {
   ip = json.ip;
+
+  alert(ip);
   document.write(ip)
   console.log(ip)
   }
@@ -137,12 +139,15 @@ $(document).ready(function(){
 //   alert(data);
 // });
 
-                var name = document.getElementById("name").value;
+$.getJSON('https://api.ipify.org?format=json', function(data){
+
+    var name = document.getElementById("name").value;
                 var message = document.getElementById("message").value;
-                var ip = ip; //do this
+                var ip = data.ip; //do this
                 var time = 0;
 
-                alert(ip);
+alert(ip);
+
 
             //    console.log(name, message, ip, time);
 
@@ -152,6 +157,8 @@ $(document).ready(function(){
                     ip: ip,
                     time: time
                 }));
+});
+
 
 
             }
