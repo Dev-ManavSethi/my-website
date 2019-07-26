@@ -25,9 +25,17 @@ func Chat(w http.ResponseWriter, r *http.Request) {
 			if err != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 			}
-		} else {
+		} else if !UserExists {
 
-			utils.RegisterChatUser(IPAddress, "Guest")
+			var name string
+			err := r.ParseForm()
+			if err != nil {
+				name = "Guest"
+			} else {
+				name = r.FormValue("name")
+			}
+
+			utils.RegisterChatUser(IPAddress, name)
 
 			error := utils.BackupChats()
 			if error != nil {
@@ -35,9 +43,9 @@ func Chat(w http.ResponseWriter, r *http.Request) {
 				log.Println(error)
 			}
 
-			err := models.Templates.ExecuteTemplate(w, "chat.html", models.Chats[IPAddress])
-			utils.HandleErr(err, "Error executing chat.html for "+IPAddress, "")
-			if err != nil {
+			err2 := models.Templates.ExecuteTemplate(w, "chat.html", models.Chats[IPAddress])
+			utils.HandleErr(err2, "Error executing chat.html for "+IPAddress, "")
+			if err2 != nil {
 				w.WriteHeader(http.StatusInternalServerError)
 			}
 

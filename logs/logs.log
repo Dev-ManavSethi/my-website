@@ -1,10 +1,89 @@
-2019/07/27 00:26:10 Log file set!
-2019/07/27 00:26:10 errors.go:11: Parsed templates fom /templates
-2019/07/27 00:26:10 errors.go:11: Loaded chats from db/chats.db
-2019/07/27 00:26:10 main.go:82: Listening at : 5000
-2019/07/27 00:26:17 HTTPhandlers.go:89: request Content-Type isn't multipart/form-data
-2019/07/27 00:28:00 main.go:53: Signal recieved interrupt
-2019/07/27 00:28:00 chat.go:48: Starting Chat backup
-2019/07/27 00:28:00 chat.go:68: Chat backup done!
-2019/07/27 00:28:00 main.go:55: Exiting app
-2019/07/27 00:28:00 main.go:56: 
+2019/07/27 00:45:00 Log file set!
+2019/07/27 00:45:00 errors.go:11: Parsed templates fom /templates
+2019/07/27 00:45:00 errors.go:11: Loaded chats from db/chats.db
+2019/07/27 00:45:00 main.go:82: Listening at : 5000
+2019/07/27 00:48:10 main.go:53: Signal recieved interrupt
+2019/07/27 00:48:10 chat.go:48: Starting Chat backup
+2019/07/27 00:48:10 chat.go:68: Chat backup done!
+2019/07/27 00:48:10 main.go:55: Exiting app
+2019/07/27 00:48:10 main.go:56: 
+2019/07/27 00:48:12 Log file set!
+2019/07/27 00:48:12 errors.go:11: Parsed templates fom /templates
+2019/07/27 00:48:12 errors.go:11: Loaded chats from db/chats.db
+2019/07/27 00:48:12 main.go:82: Listening at : 5000
+2019/07/27 00:48:34 main.go:53: Signal recieved interrupt
+2019/07/27 00:48:34 chat.go:48: Starting Chat backup
+2019/07/27 00:48:34 chat.go:68: Chat backup done!
+2019/07/27 00:48:34 main.go:55: Exiting app
+2019/07/27 00:48:34 main.go:56: 
+2019/07/27 00:48:36 Log file set!
+2019/07/27 00:48:36 errors.go:11: Parsed templates fom /templates
+2019/07/27 00:48:36 errors.go:11: Loaded chats from db/chats.db
+2019/07/27 00:48:36 main.go:82: Listening at : 5000
+2019/07/27 00:49:21 main.go:53: Signal recieved interrupt
+2019/07/27 00:49:21 chat.go:48: Starting Chat backup
+2019/07/27 00:49:21 chat.go:68: Chat backup done!
+2019/07/27 00:49:21 main.go:55: Exiting app
+2019/07/27 00:49:21 main.go:56: 
+2019/07/27 00:49:23 Log file set!
+2019/07/27 00:49:23 errors.go:11: Parsed templates fom /templates
+2019/07/27 00:49:23 errors.go:11: Loaded chats from db/chats.db
+2019/07/27 00:49:23 main.go:82: Listening at : 5000
+2019/07/27 00:49:57 main.go:53: Signal recieved interrupt
+2019/07/27 00:49:57 chat.go:48: Starting Chat backup
+2019/07/27 00:49:57 chat.go:68: Chat backup done!
+2019/07/27 00:49:57 main.go:55: Exiting app
+2019/07/27 00:49:57 main.go:56: 
+2019/07/27 00:50:00 Log file set!
+2019/07/27 00:50:00 errors.go:11: Parsed templates fom /templates
+2019/07/27 00:50:00 errors.go:11: Loaded chats from db/chats.db
+2019/07/27 00:50:00 main.go:82: Listening at : 5000
+2019/07/27 00:50:41 main.go:53: Signal recieved interrupt
+2019/07/27 00:50:41 chat.go:48: Starting Chat backup
+2019/07/27 00:50:41 chat.go:68: Chat backup done!
+2019/07/27 00:50:41 main.go:55: Exiting app
+2019/07/27 00:50:41 main.go:56: 
+2019/07/27 00:50:43 Log file set!
+2019/07/27 00:50:43 errors.go:11: Parsed templates fom /templates
+2019/07/27 00:50:43 errors.go:11: Loaded chats from db/chats.db
+2019/07/27 00:50:43 main.go:82: Listening at : 5000
+2019/07/27 00:51:04 main.go:53: Signal recieved interrupt
+2019/07/27 00:51:04 chat.go:48: Starting Chat backup
+2019/07/27 00:51:04 chat.go:68: Chat backup done!
+2019/07/27 00:51:04 main.go:55: Exiting app
+2019/07/27 00:51:04 main.go:56: 
+2019/07/27 00:51:07 Log file set!
+2019/07/27 00:51:07 errors.go:11: Parsed templates fom /templates
+2019/07/27 00:51:07 errors.go:11: Loaded chats from db/chats.db
+2019/07/27 00:51:07 main.go:82: Listening at : 5000
+2019/07/27 00:51:11 chat.go:48: Starting Chat backup
+2019/07/27 00:51:11 chat.go:68: Chat backup done!
+2019/07/27 00:51:11 chat.go:48: Starting Chat backup
+2019/07/27 00:51:11 chat.go:68: Chat backup done!
+2019/07/27 00:51:24 chat.go:48: Starting Chat backup
+2019/07/27 00:51:24 chat.go:68: Chat backup done!
+2019/07/27 00:51:24 chat.go:48: Starting Chat backup
+2019/07/27 00:51:24 chat.go:68: Chat backup done!
+2019/07/27 00:53:21 main.go:53: Signal recieved interrupt
+2019/07/27 00:53:21 chat.go:48: Starting Chat backup
+2019/07/27 00:53:21 chat.go:68: Chat backup done!
+2019/07/27 00:53:21 main.go:55: Exiting app
+2019/07/27 00:53:21 main.go:56: 
+2019/07/27 01:00:31 Log file set!
+2019/07/27 01:00:31 errors.go:11: Parsed templates fom /templates
+2019/07/27 01:00:31 errors.go:11: Loaded chats from db/chats.db
+2019/07/27 01:00:31 main.go:82: Listening at : 5000
+2019/07/27 01:01:18 main.go:53: Signal recieved interrupt
+2019/07/27 01:01:18 chat.go:48: Starting Chat backup
+2019/07/27 01:01:18 chat.go:68: Chat backup done!
+2019/07/27 01:01:18 main.go:55: Exiting app
+2019/07/27 01:01:18 main.go:56: 
+2019/07/27 01:01:21 Log file set!
+2019/07/27 01:01:21 errors.go:11: Parsed templates fom /templates
+2019/07/27 01:01:21 errors.go:11: Loaded chats from db/chats.db
+2019/07/27 01:01:21 main.go:82: Listening at : 5000
+2019/07/27 01:01:56 main.go:53: Signal recieved interrupt
+2019/07/27 01:01:56 chat.go:48: Starting Chat backup
+2019/07/27 01:01:56 chat.go:68: Chat backup done!
+2019/07/27 01:01:56 main.go:55: Exiting app
+2019/07/27 01:01:56 main.go:56: 

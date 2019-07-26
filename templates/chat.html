@@ -6,12 +6,14 @@
     <title>Chat with Manav</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="application/javascript" src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
 
 </head>
 
 <body>
 
-    {{if .}} Welcome {{.Name}}
+    {{if .}}
+    Welcome {{.Name}}
 
     <div id="chat">
         {{range .Chats}}
@@ -21,9 +23,7 @@
         <br id="br" /> {{end}}
     </div>
 
-    {{e}} {{end}}
-
-    <footer>
+      <footer>
 
 
         <fieldset>
@@ -60,22 +60,88 @@
 
 
 
+
+    {{else}} 
+    
+
+    <footer>
+
+
+        <fieldset>
+
+            <legend> Start Chat </legend>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="name">Name</label>
+                <div class="col-md-4">
+
+                    <!-- name input -->
+                    <input id="start-name" name="start-name" type="text" placeholder="name" class="form-control input-md" required="" value="{{.Name}}">
+
+                </div>
+            </div>
+
+            <!-- <div class="form-group">
+                <label class="col-md-4 control-label" for="message">Message</label>
+                <div class="col-md-8">
+
+                    <!-- message input 
+                    <input id="message" name="message" type="text" placeholder="Your Message" class="form-control input-md" required="">
+
+                </div>
+            </div> -->
+
+        </fieldset>
+
+        <!--send button-->
+        <button onclick="StartChat()" id="start-chat-button">Start</button>
+
+
+    </footer>
+    
+    {{end}}
+
+  
     <script type="text/javascript">
+
+var ip = "";
+function getIP(json) {
+  ip = json.ip;
+  document.write(ip)
+  }
+
+
+$(document).ready(function(){
+   
+
+  $("#start-chat-button").click(function(){
+    var name = document.getElementById("start-name").value;
+    $.get("/chat?name=" +name, function(data, status){
+    location.reload;
+    });
+  });
+ 
+});
+
+
+
         if ("WebSocket" in window) {
 
             // Let us open a web socket
-            var ws = new WebSocket("ws://localhost:5000/chatws");
+            var ws = new WebSocket("wss://manavsethi.herokuapp.com/chatws");
 
             function SendMessage() {
 
+//                 $.get('https://json.geoiplookup.io/api?callback=', function(data) {
+//   alert(data);
+// });
+
                 var name = document.getElementById("name").value;
                 var message = document.getElementById("message").value;
-                var ip = "127.0.0.1";
+                var ip = ip; //do this
                 var time = 0;
 
-                console.log(name, message, ip, time);
-
-
+            //    console.log(name, message, ip, time);
 
                 ws.send(JSON.stringify({
                     name: name,
@@ -100,10 +166,7 @@
                 var p_name = document.createElement("p"); // Create a <li> node
                 var name_text = document.createTextNode(reply.name + " : " + reply.message); // Create a text node
                 p_name.appendChild(name_text);
-                //
-                // var p_message = document.createElement("p");                 // Create a <li> node
-                // var message_text = document.createTextNode(reply.message);         // Create a text node
-                // p_message.appendChild(message_text);
+             
 
                 var p_time = document.createElement("p"); // Create a <li> node
                 var time_text = document.createTextNode(reply.time); // Create a text node
@@ -113,14 +176,12 @@
 
                 var chat_div = document.getElementById("chat");
                 chat_div.appendChild(p_name);
-                //   chat_div.appendChild(p_message);
+             
                 chat_div.appendChild(p_time);
-                chat_div.appendChild(document.getElementById("br"));
+                chat_div.appendChild(document.createElement("br"));
             };
 
             ws.onclose = function() {
-
-
 
             };
         } else {
