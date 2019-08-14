@@ -71,7 +71,7 @@ func StartServer() error {
 
 	Multiplexer.HandleFunc("/", controllers.Home) //done
 	Multiplexer.HandleFunc("/about", controllers.About)
-	Multiplexer.HandleFunc("/resume", controllers.Resume)     //done, update resume + env resume link
+	Multiplexer.HandleFunc("/resume", controllers.Resume) //done, update resume + env resume link
 	Multiplexer.HandleFunc("/resume/upload", controllers.ResumeUpload)
 	Multiplexer.HandleFunc("/projects", controllers.Projects) //done
 	Multiplexer.HandleFunc("/chat", controllers.Chat)

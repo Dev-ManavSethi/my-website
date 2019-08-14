@@ -75,10 +75,13 @@ func ResumeUpload(ResponseWriter http.ResponseWriter, Request *http.Request) {
 	if Request.Method == http.MethodPost {
 
 		FileReader, err := os.OpenFile("storage/pdf/resume.pdf", os.O_CREATE|os.O_RDWR, 0655)
+
 		if err != nil {
 			log.Println(err)
 			ResponseWriter.WriteHeader(http.StatusInternalServerError)
 		} else {
+			log.Println("opened file")
+
 			err := Request.ParseForm()
 			if err != nil {
 				log.Println(err)
@@ -89,13 +92,21 @@ func ResumeUpload(ResponseWriter http.ResponseWriter, Request *http.Request) {
 					log.Println(err)
 					ResponseWriter.WriteHeader(http.StatusInternalServerError)
 				} else {
-					_, err := io.Copy(FileReader, file)
+
+					log.Println("recieved file post form")
+
+					n, err := io.Copy(FileReader, file)
+
 					if err != nil {
 						log.Println(err)
 						ResponseWriter.WriteHeader(http.StatusInternalServerError)
+
 					} else {
-						ResponseWriter.WriteHeader(http.StatusOK)
-						fmt.Fprint(ResponseWriter, "Done!")
+
+						FileReader.Close()
+						file.Close()
+						fmt.Fprintln(ResponseWriter, n)
+
 					}
 				}
 			}
@@ -110,18 +121,6 @@ func ResumeUpload(ResponseWriter http.ResponseWriter, Request *http.Request) {
 }
 
 func Resume(ResponseWriter http.ResponseWriter, Request *http.Request) {
-
-	// HTTPresponse, error01 := http.Get(os.Getenv("RESUME_URL"))
-	// utils.HandleErr(error01, "Error getting resume from: "+os.Getenv("RESUME_URL"), "")
-
-	// ResumeFileWriter, error02 := os.Create("./storage/pdf/resume.pdf")
-	// utils.HandleErr(error02, "Error creating / getting /storage/resume.pdf", "")
-
-	// _, error03 := io.Copy(ResumeFileWriter, HTTPresponse.Body)
-	// defer HTTPresponse.Body.Close()
-	// // defer ResumeFileWriter.Close()
-
-	// utils.HandleErr(error03, "Error copying from resonse body to file", "Updated resume!")
 
 	http.ServeFile(ResponseWriter, Request, "storage/pdf/resume.pdf")
 
