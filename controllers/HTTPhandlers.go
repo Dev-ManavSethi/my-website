@@ -122,6 +122,7 @@ func ResumeUpload(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
 func Resume(ResponseWriter http.ResponseWriter, Request *http.Request) {
 
-	http.ServeFile(ResponseWriter, Request, "storage/pdf/resume.pdf")
+	//	http.ServeFile(ResponseWriter, Request, "storage/pdf/resume.pdf")
+	http.Redirect(ResponseWriter, Request, "/storage/pdf/resume.pdf", http.StatusSeeOther)
 
 }
